@@ -2,12 +2,28 @@ use std::{env, fmt, fs};
 
 pub enum AOCEdition {
     Y2023,
+    Y2022,
+    Y2021,
+    Y2020,
+    Y2019,
+    Y2018,
+    Y2017,
+    Y2016,
+    Y2015,
 }
 
 impl fmt::Display for AOCEdition {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match &self {
-            AOCEdition::Y2023 => write!(f, "2023")
+            AOCEdition::Y2023 => write!(f, "2023"),
+            AOCEdition::Y2022 => write!(f, "2022"),
+            AOCEdition::Y2021 => write!(f, "2021"),
+            AOCEdition::Y2020 => write!(f, "2020"),
+            AOCEdition::Y2019 => write!(f, "2019"),
+            AOCEdition::Y2018 => write!(f, "2018"),
+            AOCEdition::Y2017 => write!(f, "2017"),
+            AOCEdition::Y2016 => write!(f, "2016"),
+            AOCEdition::Y2015 => write!(f, "2015"),
         }
     }
 }
@@ -72,7 +88,6 @@ impl fmt::Display for AOCDay {
     }
 }
 
-
 pub fn parse_file(dir_str: String, aoc_edition: AOCEdition, aoc_day: AOCDay, suffix: Option<String>) -> String {
     let current_path_buf = env::current_dir().unwrap();
     let current_path_str = current_path_buf.to_str().unwrap();
@@ -93,8 +108,7 @@ pub fn parse_file(dir_str: String, aoc_edition: AOCEdition, aoc_day: AOCDay, suf
 
     let path_str = path_str.as_str();
 
-    return fs::read_to_string(path_str)
-        .expect(format!("Could not read file {} (current path: {})", path_str, current_path_str).as_str());
+    return fs::read_to_string(path_str).expect(format!("Could not read file {} (current path: {})", path_str, current_path_str).as_str());
 }
 
 pub fn parse_input(aoc_edition: AOCEdition, aoc_day: AOCDay, suffix: Option<String>) -> String {

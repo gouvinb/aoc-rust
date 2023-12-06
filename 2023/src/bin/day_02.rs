@@ -1,7 +1,6 @@
 use core::{
-    Input,
-    input_reader::{AOCDay, AOCEdition, parse_input},
-    PuzzleTrait,
+    input_reader::{parse_input, AOCDay, AOCEdition},
+    Input, PuzzleTrait,
 };
 use y2023::puzzles::d02::{PuzzlePart1, PuzzlePart2};
 
@@ -12,7 +11,7 @@ fn main() {
         b_cube_count: 14,
 
         input: Input {
-            value: parse_input(AOCEdition::Y2023, AOCDay::D02, None)
+            value: parse_input(AOCEdition::Y2023, AOCDay::D02, None),
         },
     };
 
@@ -24,7 +23,7 @@ fn main() {
         b_cube_count: 14,
 
         input: Input {
-            value: parse_input(AOCEdition::Y2023, AOCDay::D02, None)
+            value: parse_input(AOCEdition::Y2023, AOCDay::D02, None),
         },
     };
 
