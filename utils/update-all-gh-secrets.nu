@@ -30,7 +30,7 @@ def main [] {
   $args_pair_list | each { |args|
     open .github/workflows/rust.yml |
       upsert jobs.build.env { |yml|
-        $yml | get jobs.build.env | insert $"($args.var_name)" $"${{ secret.($args.var_name) }}"
+        $yml | get jobs.build.env | insert $"($args.var_name)" $"${{ secrets.($args.var_name) }}"
       } |
       to yaml |
       save -f .github/workflows/rust.yml
