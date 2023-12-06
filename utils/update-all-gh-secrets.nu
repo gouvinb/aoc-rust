@@ -18,7 +18,15 @@ def main [] {
     }
   })
 
-  $args_pair_list | par-each -k { |args|
+  let clean_github_action_secrets_path_script = "utils/clean_github_action_secrets.nu"
+
+  if ($clean_github_action_secrets_path_script | path exists) {
+    nu $clean_github_action_secrets_path_script
+  } else {
+    echo $"Skip \"($clean_github_action_secrets_path_script)\""
+  }
+
+  $args_pair_list | each { |args|
     gh secret set $"($args.var_name)" --body $"(cat $args.path)"
   }
 
@@ -36,9 +44,23 @@ def main [] {
       save -f .github/workflows/rust.yml
   }
 
-  let script_lines = $args_pair_list | par-each -k { |args|
-    $"echo \"$($args.var_name)\" > ($args.path)"
-  } | insert 0 "" | insert 0 "#!/usr/bin/env sh"
+  let $script_clean_lines = $args_pair_list |
+    par-each -k { |args|
+      $"  \"($args.var_name)\""
+    } |
+    insert 0 "#!/usr/bin/env nu" |
+    insert 1 "" |
+    insert 2 "$env.config.table.show_empty = false" |
+    insert 3 "" |
+    insert 4 "[" |
+    append "] | each { |$it| gh secret delete $it }"
 
-  $script_lines | to text | save -f "utils/prepare_inputs_and_responses.sh"
+  $script_clean_lines | to text | save -f $clean_github_action_secrets_path_script
+
+
+  let script_prepare_lines = $args_pair_list | par-each -k { |args|
+    $"echo \"$($args.var_name)\" > ($args.path)"
+  } | insert 0 "#!/usr/bin/env sh" | insert 1 ""
+
+  $script_prepare_lines | to text | save -f "utils/prepare_inputs_and_responses.sh"
 }
