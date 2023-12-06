@@ -1,0 +1,31 @@
+name: Rust
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      INPUT_2023_01: ${{ secret.INPUT_2023_01 }}
+      INPUT_2023_01_1_EXAMPLE: ${{ secret.INPUT_2023_01_1_EXAMPLE }}
+      INPUT_2023_01_2_EXAMPLE: ${{ secret.INPUT_2023_01_2_EXAMPLE }}
+      INPUT_2023_02: ${{ secret.INPUT_2023_02 }}
+      INPUT_2023_02_EXAMPLE: ${{ secret.INPUT_2023_02_EXAMPLE }}
+      RESPONSE_2023_01_1_EXAMPLE: ${{ secret.RESPONSE_2023_01_1_EXAMPLE }}
+      RESPONSE_2023_01_2_EXAMPLE: ${{ secret.RESPONSE_2023_01_2_EXAMPLE }}
+      RESPONSE_2023_02_1_EXAMPLE: ${{ secret.RESPONSE_2023_02_1_EXAMPLE }}
+      RESPONSE_2023_02_2_EXAMPLE: ${{ secret.RESPONSE_2023_02_2_EXAMPLE }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cargo build --verbose
+    - name: Prepare tests
+      run: sh utils/prepare_inputs_and_responses.sh
+    - name: Run tests
+      run: cargo test --verbose
