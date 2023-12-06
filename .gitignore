@@ -247,8 +247,8 @@ $RECYCLE.BIN/
 
 .idea/
 
-inputs/*
+inputs/*/*
 !inputs/*/.keep
 
-responses/*
+responses/*/*
 !responses/*/.keep
