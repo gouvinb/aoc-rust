@@ -1,7 +1,7 @@
 use std::cmp::{max, min};
 
 #[allow(unused_imports)]
-use core::{Input, PuzzleTrait, scoped_fn::ScopedFn};
+use core::{scoped_fn::ScopedFn, Input, PuzzleTrait};
 
 pub struct Puzzle {
     pub input: Input,
@@ -40,7 +40,6 @@ impl PuzzleTrait for Puzzle {
             })
             .collect::<Vec<Number>>();
 
-
         let result: usize = points
             .iter()
             .filter(|point| point.is_engine_number(&grid))
@@ -73,11 +72,7 @@ struct Number {
 
 impl Number {
     fn new(number: String, x: usize, y: usize) -> Number {
-        Number {
-            number,
-            x,
-            y,
-        }
+        Number { number, x, y }
     }
 
     fn is_engine_number(&self, grid: &Grid) -> bool {
