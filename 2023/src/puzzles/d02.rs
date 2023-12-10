@@ -42,11 +42,11 @@ impl PuzzleTrait for PuzzlePart2 {
 }
 
 trait GameHelper {
-    fn parse_all_games(&self) -> Map<Lines, fn(&str) -> (i32, (i32, i32, i32))>;
+    fn parse_all_games(&self) -> Map<Lines, fn(&str) -> Game>;
 }
 
 impl GameHelper for String {
-    fn parse_all_games(&self) -> Map<Lines, fn(&str) -> (i32, (i32, i32, i32))> {
+    fn parse_all_games(&self) -> Map<Lines, fn(&str) -> Game> {
         return self.lines().map(|line| {
             let (game_name, draws_raw) = line.split_once(": ").unwrap_or_else(|| panic!("Format not supported (line: {}", line));
 
@@ -79,6 +79,10 @@ impl GameHelper for String {
         });
     }
 }
+
+type Rgb = (i32, i32, i32);
+
+type Game = (i32, Rgb);
 
 trait DrawsHelper {
     fn max_count_of(&self, color_name: String) -> &i32;
