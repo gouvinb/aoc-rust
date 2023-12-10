@@ -26,8 +26,12 @@ jobs:
       RESPONSE_2023_03_EXAMPLE: ${{ secrets.RESPONSE_2023_03_EXAMPLE }}
     steps:
     - uses: actions/checkout@v3
-    - name: Check
+    - name: Check style
       run: cargo fmt --all -- --check
+    - name: Check with `cargo check`
+      run: cargo check --all
+    - name: Check with Clippy
+      run: cargo clippy --all
     - name: Build
       run: cargo build --verbose
     - name: Prepare tests
