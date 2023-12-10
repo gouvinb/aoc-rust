@@ -20,7 +20,7 @@ impl PuzzleTrait for PuzzlePart1 {
             .map(|(id, _)| id)
             .sum();
 
-        return format!("{}", result);
+        format!("{}", result)
     }
 }
 
@@ -37,7 +37,7 @@ impl PuzzleTrait for PuzzlePart2 {
         let input = &self.input.value;
         let result: i32 = input.parse_all_games().map(|(_, (r, g, b))| r * g * b).sum();
 
-        return format!("{}", result);
+        format!("{}", result)
     }
 }
 
@@ -48,24 +48,24 @@ trait GameHelper {
 impl GameHelper for String {
     fn parse_all_games(&self) -> Map<Lines, fn(&str) -> (i32, (i32, i32, i32))> {
         return self.lines().map(|line| {
-            let (game_name, draws_raw) = line.split_once(": ").expect(format!("Format not supported (line: {}", line).as_str());
+            let (game_name, draws_raw) = line.split_once(": ").unwrap_or_else(|| panic!("Format not supported (line: {}", line));
 
             let id = game_name
                 .trim_start_matches("Game ")
                 .parse::<i32>()
-                .expect(format!("Id not found with game name (Game name: {})", game_name).as_str());
+                .unwrap_or_else(|_| panic!("Id not found with game name (Game name: {})", game_name));
 
             let draws: Vec<(String, i32)> = draws_raw
                 .split("; ")
                 .flat_map(|draw| {
                     return draw.split(", ").map(|sub_draw| {
                         let (color_count_raw, color_name) = sub_draw
-                            .split_once(" ")
-                            .expect(format!("Cannot find color and count with: {}", sub_draw).as_str());
+                            .split_once(' ')
+                            .unwrap_or_else(|| panic!("Cannot find color and count with: {}", sub_draw));
                         let color_count = color_count_raw
                             .parse::<i32>()
-                            .expect(format!("Cannot count color {}. (Sub draw: {})", color_name, sub_draw).as_str());
-                        return (color_name.to_string(), color_count);
+                            .unwrap_or_else(|_| panic!("Cannot count color {}. (Sub draw: {})", color_name, sub_draw));
+                        (color_name.to_string(), color_count)
                     });
                 })
                 .collect();
@@ -75,7 +75,7 @@ impl GameHelper for String {
                 draws.max_count_of("green".to_string()),
                 draws.max_count_of("blue".to_string()),
             );
-            return (id, (*max_red, *max_green, *max_blue));
+            (id, (*max_red, *max_green, *max_blue))
         });
     }
 }
@@ -91,6 +91,6 @@ impl DrawsHelper for Vec<(String, i32)> {
             .filter(|(color, _)| *color == color_name)
             .map(|(_, count)| count)
             .max()
-            .expect(format!("Cannot return max of {:?}", self).as_str());
+            .unwrap_or_else(|| panic!("Cannot return max of {:?}", self));
     }
 }

@@ -51,10 +51,10 @@ impl PuzzleTrait for Puzzle {
             .map(|match_indices: Vec<(usize, &i32)>| {
                 let (_, first) = match_indices.iter().min_by_key(|(index, _)| index).unwrap();
                 let (_, last) = match_indices.iter().max_by_key(|(index, _)| index).unwrap();
-                return (**first * 10) + **last;
+                (**first * 10) + **last
             })
             .sum::<i32>();
 
-        return format!("{}", result);
+        format!("{}", result)
     }
 }

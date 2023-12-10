@@ -94,7 +94,7 @@ pub fn parse_file(dir_str: String, aoc_edition: AOCEdition, aoc_day: AOCDay, suf
 
     let mut path_str = match fs::metadata(&dir_str) {
         Ok(metadata) if metadata.is_dir() => format!("{}/", dir_str),
-        _ => match fs::metadata(&format!("../{}/", dir_str)) {
+        _ => match fs::metadata(format!("../{}/", dir_str)) {
             Ok(metadata) if metadata.is_dir() => format!("../{}/", dir_str),
             _ => panic!("Couldn't find `{}` directory.", dir_str),
         },
@@ -108,13 +108,13 @@ pub fn parse_file(dir_str: String, aoc_edition: AOCEdition, aoc_day: AOCDay, suf
 
     let path_str = path_str.as_str();
 
-    return fs::read_to_string(path_str).expect(format!("Could not read file {} (current path: {})", path_str, current_path_str).as_str());
+    fs::read_to_string(path_str).unwrap_or_else(|_| panic!("Could not read file {} (current path: {})", path_str, current_path_str))
 }
 
 pub fn parse_input(aoc_edition: AOCEdition, aoc_day: AOCDay, suffix: Option<String>) -> String {
-    return parse_file("inputs".to_string(), aoc_edition, aoc_day, suffix);
+    parse_file("inputs".to_string(), aoc_edition, aoc_day, suffix)
 }
 
 pub fn parse_response(aoc_edition: AOCEdition, aoc_day: AOCDay, suffix: Option<String>) -> String {
-    return parse_file("responses".to_string(), aoc_edition, aoc_day, suffix);
+    parse_file("responses".to_string(), aoc_edition, aoc_day, suffix)
 }
