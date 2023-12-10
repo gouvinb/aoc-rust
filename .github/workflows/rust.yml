@@ -31,7 +31,7 @@ jobs:
     - name: Check with `cargo check`
       run: cargo check --all
     - name: Check with Clippy
-      run: cargo clippy --all
+      run: cargo clippy --all -- -D warnings
     - name: Build
       run: cargo build --verbose
     - name: Prepare tests
